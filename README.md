@@ -5,11 +5,9 @@
 Abbrevio is a text snippet management tool for Windows, inspired by [BeefText].
 
 > [!important]  
-> Abbrevio is now in maintenance mode. No new feature will be added, but fixes for major issues will be provided.
+> Abbrevio is being developed for a specific group and use-case and development will not focus on requests made outside of CanScribe staff or students
 
-TextExpander is a great program, packed with features. To keep the company profitable, 
-[Smile] had to switch to a subscription-based model in 2016. And for people who only need the
-basic features of TextExpander, the monthly price is way too high.
+BeefText is a great program, packed with features. But with it now being in maintenance mode, some needed features were required to be added. Presto! Abbrevio was born. 
 
 Abbrevio aims to be the best possible alternative to TextExpander. Abbrevio is an open-source project 
 written in C++ using the [Qt] framework.
