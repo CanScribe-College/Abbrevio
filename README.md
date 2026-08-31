@@ -67,3 +67,4 @@ Detailed build instructions are not available at the moment.
 [Qt Visual Studio Tools]: https://marketplace.visualstudio.com/items?itemName=TheQtCompany.QtVisualStudioTools2022
 [XMiLib]: https://github.com/xmichelo/XMiLib
 [NSIS]: http://nsis.sourceforge.net/Main_Page
+
