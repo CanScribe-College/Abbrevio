@@ -1472,7 +1472,7 @@ bool PreferencesManager::useShiftInsertForPasting() const {
 //****************************************************************************************************************************************************
 /// \param[in] versionNumber The version number.
 //****************************************************************************************************************************************************
-void PreferencesManager::setSkipVersionNumber(VersionNumber const &versionNumber) const {
+void PreferencesManager::setSkipVersionNumber(AppVersion const &versionNumber) const {
     settings_->setValue(kKeySkipVersionNumber, versionNumber.toString());
 }
 
@@ -1480,8 +1480,8 @@ void PreferencesManager::setSkipVersionNumber(VersionNumber const &versionNumber
 //****************************************************************************************************************************************************
 /// \return The value for the 'Skip version number' preference.
 //****************************************************************************************************************************************************
-VersionNumber PreferencesManager::getSkipVersionNumber() const {
-    return VersionNumber::fromString(readSettings<QString>(kKeySkipVersionNumber, QString()));
+AppVersion PreferencesManager::getSkipVersionNumber() const {
+    return AppVersion::fromString(readSettings<QString>(kKeySkipVersionNumber, QString()));
 }
 
 

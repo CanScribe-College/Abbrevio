@@ -32,7 +32,9 @@ AboutDialog::AboutDialog(QWidget *parent)
 //****************************************************************************************************************************************************
 void AboutDialog::completeText() const {
     QString const hexColor = colorToHex(constants::blueAbbrevioColor, false);
-    ui_.labelText->setText(ui_.labelText->text().arg(constants::kVersionNumber.major()).arg(constants::kVersionNumber.minor())
+    // the (translated) text has a "%1.%2" placeholder, so we pass "minor.patch" as %2 to display the full version number
+    ui_.labelText->setText(ui_.labelText->text().arg(constants::kVersionNumber.major())
+        .arg(QString("%1.%2").arg(constants::kVersionNumber.minor()).arg(constants::kVersionNumber.patch()))
         .arg(isInPortableMode() ? tr("Portable Edition") : "").arg(QString(__DATE__).right(4))
         .arg(hexColor));
     ui_.labelTranslators->setText(ui_.labelTranslators->text().arg(hexColor));

@@ -14,14 +14,14 @@
 namespace constants {
 
 
-xmilib::VersionNumber const kVersionNumber(16, 0);
+AppVersion const kVersionNumber(0, 9, 1);
 QString const kApplicationName = "Abbrevio";
 QString const kOrganizationName = "abbrevio.org";
-QString const kAbbrevioWikiHomeUrl = "https://github.com/CanScribe/Abbrevio/wiki";
-QString const kGettingStartedUrl = "https://github.com/CanScribe/Abbrevio/wiki/Getting-started";
-QString const kAbbrevioWikiVariablesUrl = "https://github.com/CanScribe/Abbrevio/wiki/Variables";
-QString const kAbbrevioReleasesPagesUrl = "https://github.com/CanScribe/Abbrevio/releases";
-QString const kAbbrevioIssueTrackerUrl = "https://github.com/CanScribe/Abbrevio/issues";
+QString const kAbbrevioWikiHomeUrl = "https://github.com/CanScribe-College/Abbrevio/wiki";
+QString const kGettingStartedUrl = "https://github.com/CanScribe-College/Abbrevio/wiki/Getting-started";
+QString const kAbbrevioWikiVariablesUrl = "https://github.com/CanScribe-College/Abbrevio/wiki/Variables";
+QString const kAbbrevioReleasesPagesUrl = "https://github.com/CanScribe-College/Abbrevio/releases";
+QString const kAbbrevioIssueTrackerUrl = "https://github.com/CanScribe-College/Abbrevio/issues";
 QString const backupFileExtension = "btbackup";
 QString const kKeyVariableRegExpStr(R"(#{key:(\w+)(?>:(\d+))?})");
 QString const kShortcutVariableRegExpStr(R"(#{shortcut:(.+)})");

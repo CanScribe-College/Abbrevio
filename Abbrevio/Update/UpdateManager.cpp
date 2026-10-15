@@ -83,7 +83,7 @@ void UpdateManager::startUpdateCheckWorker(bool verifySkippedVersion) {
     emit startedUpdateCheck();
     QThread *thread = new QThread;
     UpdateCheckWorker *worker = new UpdateCheckWorker(nullptr, verifySkippedVersion ?
-                                                               PreferencesManager::instance().getSkipVersionNumber() : xmilib::VersionNumber());
+                                                               PreferencesManager::instance().getSkipVersionNumber() : AppVersion());
     worker->moveToThread(thread);
     connect(thread, &QThread::started, worker, &UpdateCheckWorker::run);
     connect(worker, &UpdateCheckWorker::finished, this, &UpdateManager::onWorkerFinished);

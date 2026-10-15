@@ -6,6 +6,7 @@ HEADERS += ./AbbrevioConstants.h \
     ./MimeDataUtils.h \
     ./Shortcut.h \
     ./stdafx.h \
+    ./AppVersion.h \
     ./LatestVersionInfo.h \
     ./AboutDialog.h \
     ./MainWindow.h \
@@ -40,6 +41,7 @@ SOURCES += ./AboutDialog.cpp \
     ./ClipboardManager.cpp \
     ./I18nManager.cpp \
     ./InputManager.cpp \
+    ./AppVersion.cpp \
     ./LatestVersionInfo.cpp \
     ./main.cpp \
     ./MainWindow.cpp \

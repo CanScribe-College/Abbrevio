@@ -11,7 +11,7 @@
 #define ABBREVIO_CONSTANTS_H
 
 
-#include <XMiLib/VersionNumber/VersionNumber.h>
+#include "AppVersion.h"
 #include <memory>
 
 
@@ -21,7 +21,7 @@ Q_DECLARE_SMART_POINTER_METATYPE(std::shared_ptr)
 namespace constants {
 
 
-extern xmilib::VersionNumber const kVersionNumber; ///< The version number of the application.
+extern AppVersion const kVersionNumber; ///< The version number of the application.
 
 QChar constexpr kEmojiDelimiter = '|'; ///< The delimiter for emojis
 QColor constexpr blueAbbrevioColor(0x25, 0x8c, 0xc0); ///< Return the blue color used for the GUI.

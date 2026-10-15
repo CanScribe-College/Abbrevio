@@ -75,6 +75,7 @@
       <Filter>Combo</Filter>
     </ClCompile>
     <ClCompile Include="AbbrevioUtils.cpp" />
+    <ClCompile Include="AppVersion.cpp" />
     <ClCompile Include="LatestVersionInfo.cpp" />
     <ClCompile Include="Update\UpdateDialog.cpp">
       <Filter>Update</Filter>
@@ -244,6 +245,7 @@
     <ClInclude Include="Combo\ComboKeywordValidator.h">
       <Filter>Combo</Filter>
     </ClInclude>
+    <ClInclude Include="AppVersion.h" />
     <ClInclude Include="LatestVersionInfo.h" />
     <ClInclude Include="ProcessListManager.h" />
     <ClInclude Include="Theme.h" />

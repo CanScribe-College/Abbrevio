@@ -16,9 +16,11 @@
 
 namespace {
 #ifdef NDEBUG
-QString const kVersionFileUrl = "https://abbrevio.org/latestVersionInfo.json"; ///< The URL of the file containing the version number of Abbrevio
+/// The GitHub API URL of the latest stable release (pre-releases and drafts are excluded)
+QString const kLatestReleaseUrl = "https://api.github.com/repos/CanScribe-College/Abbrevio/releases/latest";
 #else
-QString const kVersionFileUrl = "https://beta.abbrevio.org/latestVersionInfo.json"; ///< The URL of the file containing the version number of Abbrevio
+/// The GitHub API URL of the most recent releases, including pre-releases. The first item is the most recent
+QString const kLatestReleaseUrl = "https://api.github.com/repos/CanScribe-College/Abbrevio/releases?per_page=1";
 #endif
 }
 
@@ -26,7 +28,7 @@ QString const kVersionFileUrl = "https://beta.abbrevio.org/latestVersionInfo.jso
 //****************************************************************************************************************************************************
 /// \param[in] parent The parent object of the instance
 //****************************************************************************************************************************************************
-UpdateCheckWorker::UpdateCheckWorker(QObject *parent, xmilib::VersionNumber const &skipVersionNumber)
+UpdateCheckWorker::UpdateCheckWorker(QObject *parent, AppVersion const &skipVersionNumber)
     : QObject(parent)
     , skipVersionNumber_(skipVersionNumber) {
 
@@ -79,7 +81,10 @@ void UpdateCheckWorker::performUpdateCheck() {
 QByteArray UpdateCheckWorker::downloadLatestVersionInformation() const {
     QNetworkAccessManager nam;
     QEventLoop loop;
-    QNetworkRequest const request(kVersionFileUrl);
+    QNetworkRequest request(kLatestReleaseUrl);
+    request.setRawHeader("Accept", "application/vnd.github+json");
+    request.setHeader(QNetworkRequest::UserAgentHeader, QString("%1/%2").arg(constants::kApplicationName)
+        .arg(constants::kVersionNumber.toString())); // the GitHub API rejects requests without a user agent
     QNetworkReply *reply = nam.get(request);
     QString errorMessage;
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
@@ -88,7 +93,7 @@ QByteArray UpdateCheckWorker::downloadLatestVersionInformation() const {
     });
     loop.exec();
     if (!errorMessage.isEmpty())
-        throw xmilib::Exception(QString("Could not retrieve version information file from the Abbrevio website: %1")
+        throw xmilib::Exception(QString("Could not retrieve the latest release information from GitHub: %1")
             .arg(errorMessage));
     QByteArray result = reply->readAll();
     reply->deleteLater();
@@ -107,10 +112,14 @@ SpLatestVersionInfo UpdateCheckWorker::parseJsonData(QString const &jsonData) co
     if (error.error != QJsonParseError::NoError)
         throw xmilib::Exception(QString("Could not retrieve version information. The downloaded JSON file is "
                                         "invalid: %1").arg(error.errorString()));
-    SpLatestVersionInfo result = std::make_shared<LatestVersionInfo>(doc.object());
+    // the release list endpoint returns an array, most recent release first. The latest release endpoint returns an object
+    if (doc.isArray() && doc.array().isEmpty())
+        throw xmilib::Exception("Could not retrieve version information. No release was found on GitHub.");
+    QJsonObject const release = doc.isArray() ? doc.array().first().toObject() : doc.object();
+    SpLatestVersionInfo result = std::make_shared<LatestVersionInfo>(release);
     if (!result->isValid())
-        throw xmilib::Exception(QString("Could not retrieve version information. The downloaded JSON file is "
-                                        "invalid."));
+        throw xmilib::Exception(QString("Could not retrieve version information. The GitHub release does not have "
+                                        "a version number in its tag or name, or an installer asset with a SHA256 digest."));
     return result;
 }
 

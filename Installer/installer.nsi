@@ -1,4 +1,4 @@
-# This files contains the NSIS script for building the installer for the Abbrevio application
+﻿# This files contains the NSIS script for building the installer for the Abbrevio application
 # Xavier Michelon
 # 2017-11-12
 
@@ -32,9 +32,10 @@
 !define WEBSITE "https://abbrevio.org"
 !define AUTHOR "Xavier Michelon"
 !define COMPANY "abbrevio.org"
-!define VERSION_MAJOR 16
-!define VERSION_MINOR 0
-!define APP_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}"
+!define VERSION_MAJOR 0
+!define VERSION_MINOR 9
+!define VERSION_PATCH 1
+!define APP_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 !define LEFT_IMAGE_PATH "${RESOURCES_DIR}\installerLeftImage.bmp"
 !define TOP_IMAGE_PATH "${RESOURCES_DIR}\installerTopImage.bmp"
 !define APP_DATA_REGISTRY_KEY "Software\${COMPANY}\${APP_NAME}"
@@ -64,9 +65,9 @@
 
 
 # General attributes for the installer/uninstaller
-Name  "${APP_FANCY_NAME} v${VERSION_MAJOR}.${VERSION_MINOR}"
+Name  "${APP_FANCY_NAME} v${APP_VERSION}"
 !system "mkdir ${OUTPUT_DIR}" # create the directory where the installer file will be created, if it does not exist yet
-OutFile "${OUTPUT_DIR}\${APP_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}-Installer.exe"
+OutFile "${OUTPUT_DIR}\${APP_NAME}-${APP_VERSION}-Installer.exe"
 SetCompressor lzma # better result than default zlib, but slower
 RequestExecutionLevel none
 InstallDir "$PROGRAMFILES64\${APP_FANCY_NAME}"

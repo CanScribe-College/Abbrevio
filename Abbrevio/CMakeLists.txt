@@ -57,6 +57,8 @@ add_executable(Abbrevio
    InputManager.h
    KeyboardMapper.cpp
    KeyboardMapper.h
+   AppVersion.cpp
+   AppVersion.h
    LatestVersionInfo.cpp
    LatestVersionInfo.h
    main.cpp

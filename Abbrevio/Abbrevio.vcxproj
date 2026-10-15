@@ -307,6 +307,7 @@
     <ClCompile Include="KeyboardMapper.cpp" />
     <ClCompile Include="LastUse\ComboLastUseFile.cpp" />
     <ClCompile Include="LastUse\EmojiLastUseFile.cpp" />
+    <ClCompile Include="AppVersion.cpp" />
     <ClCompile Include="LatestVersionInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
@@ -474,6 +475,7 @@
       <ForceInclude Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h;../../Group/%(Filename)%(Extension)</ForceInclude>
     </QtMoc>
     <ClInclude Include="I18nManager.h" />
+    <ClInclude Include="AppVersion.h" />
     <ClInclude Include="LatestVersionInfo.h" />
     <ClInclude Include="MimeDataUtils.h" />
     <ClInclude Include="Shortcut.h" />

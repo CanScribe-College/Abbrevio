@@ -39,18 +39,19 @@ function copyVcppDlls([String]$dstPath)
 
 
 #***********************************************************************************************************************
-# Retrieve the major and minor version number of Abbrevio from its source socde
+# Retrieve the major, minor and patch version number of Abbrevio from its source socde. Patch defaults to 0
 #***********************************************************************************************************************
 function getAbbrevioVersion
 {
    $srcFile = absolutePath $solutionDir "Abbrevio\AbbrevioConstants.cpp"
-   $major, $minor = Select-String -Path $srcFile -Pattern 'kVersionNumber\((\d+)\s*,\s*(\d+)\);' | ForEach-Object {$_.Matches} | 
-      ForEach-Object { $_.Groups[1].Value, $_.Groups[2].Value }
-   if ([string]::IsNullOrEmpty($major) -Or [string]::IsNullOrEmpty($minor)) 
-   {  
+   $major, $minor, $patch = Select-String -Path $srcFile -Pattern 'kVersionNumber\((\d+)\s*,\s*(\d+)\s*(?:,\s*(\d+)\s*)?\);' | ForEach-Object {$_.Matches} |
+      ForEach-Object { $_.Groups[1].Value, $_.Groups[2].Value, $_.Groups[3].Value }
+   if ([string]::IsNullOrEmpty($major) -Or [string]::IsNullOrEmpty($minor))
+   {
       Write-Error "Could not parse version number"
    }
-   @($major, $minor)
+   if ([string]::IsNullOrEmpty($patch)) { $patch = "0" }
+   @($major, $minor, $patch)
 }
 
 
@@ -59,10 +60,11 @@ function getAbbrevioVersion
 #***********************************************************************************************************************
 function updateVersionNumberInInstaller
 {
-    $major, $minor = getAbbrevioVersion
+    $major, $minor, $patch = getAbbrevioVersion
     (Get-Content $nsisInstallerPath) `
         -replace '(!define\s*VERSION_MAJOR)\s*\d+', ('$1 ' + $major) `
-        -replace '(!define\s*VERSION_MINOR)\s*\d+', ('$1 ' + $minor) |
+        -replace '(!define\s*VERSION_MINOR)\s*\d+', ('$1 ' + $minor) `
+        -replace '(!define\s*VERSION_PATCH)\s*\d+', ('$1 ' + $patch) |
         Out-File $nsisInstallerPath -Encoding "UTF8"
 }
 
@@ -72,10 +74,10 @@ function updateVersionNumberInInstaller
 #***********************************************************************************************************************
 function updateVersionNumberInRcFile
 {
-    $major, $minor = getAbbrevioVersion
+    $major, $minor, $patch = getAbbrevioVersion
     (Get-Content $rcFilePath) `
-        -replace '^(#define\s+VERSION_NUMBER)\s+(\d+)\s*,\s*(\d+)(\s*,\s*0\s*,\s*0\s*$)', ('$1 ' + $major + ',' + $minor + ',0,0') `
-        -replace '^(#define\s+VERSION_STRING)\s+"(\d+)\.(\d+)\\0"\s*$', ('$1 "' + $major + '.' + $minor + '\0"') |
+        -replace '^(#define\s+VERSION_NUMBER)\s+\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*0\s*$', ('$1 ' + $major + ',' + $minor + ',' + $patch + ',0') `
+        -replace '^(#define\s+VERSION_STRING)\s+"\d+\.\d+(\.\d+)?\\0"\s*$', ('$1 "' + $major + '.' + $minor + '.' + $patch + '\0"') |
         Out-File $rcFilePath -Encoding "ASCII" 
         # Note we use ASCII for output  as UTF8 would cause the insertion of a 3-bytes BOM at the beginning of the file
         # that will screw the RC file for VS.

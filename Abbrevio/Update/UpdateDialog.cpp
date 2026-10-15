@@ -35,7 +35,7 @@ UpdateDialog::UpdateDialog(SpLatestVersionInfo latestVersionInfo, QWidget *paren
     if (latestVersionInfo_) {
         ui_.labelHeader->setText(ui_.labelHeader->text().arg(::constants::kApplicationName)
             .arg(latestVersionInfo_->versionNumber().toString()));
-        ui_.editReleaseNotes->setHtml(latestVersionInfo_->releaseNotes());
+        ui_.editReleaseNotes->setMarkdown(latestVersionInfo_->releaseNotes());
     }
     ui_.buttonInstall->setText(portableMode ? tr("&Download Page") : tr("&Install"));
     ui_.buttonCancel->setVisible(false);
