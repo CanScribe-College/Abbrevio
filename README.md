@@ -14,11 +14,7 @@ written in C++ using the [Qt] framework.
 
 ## Contributors
 
-The project is developed and managed by [Xavier Michelon]. The project is not looking for contributors and all pull requests will be rejected.
-
-Contributors for translations are listed in the [dedicated wiki page](https://github.com/xmichelo/Abbrevio/wiki/User-provided-translations).
-
-The [abbrevio.org] website uses a template provided by [HTML5 UP].
+The project is developed and managed by [CanScribe College]. The project is not looking for contributors and all pull requests will be rejected.
 
 ## License
 
