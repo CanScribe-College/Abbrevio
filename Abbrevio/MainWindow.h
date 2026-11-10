@@ -51,6 +51,7 @@ protected: // member functions
     void dropEvent(QDropEvent *event) override; ///< Drop event handler
     ///\}
     void closeEvent(QCloseEvent *) override; ///< Window close event handler
+    bool nativeEvent(QByteArray const &eventType, void *message, qintptr *result) override; ///< Native event handler
 
 private: // member functions
     void setupSystemTrayIcon(); ///< Setup the system tray icon

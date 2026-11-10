@@ -33,6 +33,8 @@ void ensureAppDataDirsExist(); ///< Make sure the application data folder exists
 void ensureMainWindowHasAHandle(MainWindow &mainWindow); ///< Ensure that the main window has a Win32 handle
 void removeFileMarkedForDeletion(); ///< Remove the software update file that may have been marker for deletion
 void setupPickerWindowShortcut(); ///< Setup the combo picker shortcut
+void registerForRestartAfterUpdate(); ///< Ask Windows to restart the application if an installer closes it
+void keepPreviousLogFile(); ///< Move the log file of the previous session to a dated file so that it is not overwritten
 
 
 //****************************************************************************************************************************************************
@@ -79,12 +81,15 @@ int main(int argc, char *argv[]) {
 
         ensureAppDataDirsExist();
         PreferencesManager const &prefs = PreferencesManager::instance();
-        if (prefs.writeDebugLogFile())
+        if (prefs.writeDebugLogFile()) {
+            keepPreviousLogFile();
             debugLog.enableLoggingToFile(globals::logFilePath());
+        }
         debugLog.setMaxEntryCount(10000);
         debugLog.addInfo(QString("%1 started.").arg(constants::kApplicationName));
         debugLog.addInfo(QString("Build info: %1").arg(globals::getBuildInfo()));
         applyAutostartParameters();
+        registerForRestartAfterUpdate();
         removeFileMarkedForDeletion();
 
         // if necessary warn about deprecated rich text support and offer an exit option.
@@ -195,6 +200,44 @@ void removeFileMarkedForDeletion() {
     else
         debugLog.addWarning(QString("The following file was marked for deletion but could not be removed: %1")
             .arg(nativePath));
+}
+
+
+//****************************************************************************************************************************************************
+/// Installers that use the Windows Restart Manager (e.g. Windows Installer packages or Windows Update) can close the
+/// application while files it uses are being updated. Registering lets Windows restart it once the installation is
+/// complete. Restart after a crash, a hang or a reboot is not requested (auto-start already covers reboots).
+//****************************************************************************************************************************************************
+void registerForRestartAfterUpdate() {
+    if (FAILED(RegisterApplicationRestart(nullptr, RESTART_NO_CRASH | RESTART_NO_HANG | RESTART_NO_REBOOT)))
+        globals::debugLog().addWarning("Could not register the application for restart after an update.");
+}
+
+
+//****************************************************************************************************************************************************
+/// Opening the log file truncates it, so without this the reason for the previous shutdown would be lost when the
+/// application is restarted automatically (e.g. after an installer closed it). The previous log is moved to a file
+/// named after the date it was last written (e.g. log.2026-11-10.txt). Sessions from the same day are appended to the
+/// same file.
+//****************************************************************************************************************************************************
+void keepPreviousLogFile() {
+    QString const path = globals::logFilePath();
+    QFileInfo const info(path);
+    if (!info.exists())
+        return;
+    QString const date = info.lastModified().toString("yyyy-MM-dd");
+    QString const datedPath = info.dir().absoluteFilePath(QString("%1.%2.%3").arg(info.completeBaseName(), date, info.suffix()));
+    if (!QFile::exists(datedPath)) {
+        QFile::rename(path, datedPath);
+        return;
+    }
+    QFile previousLog(path);
+    QFile datedLog(datedPath);
+    if (previousLog.open(QIODevice::ReadOnly) && datedLog.open(QIODevice::Append))
+        datedLog.write(previousLog.readAll());
+    previousLog.close();
+    datedLog.close();
+    QFile::remove(path);
 }
 
 

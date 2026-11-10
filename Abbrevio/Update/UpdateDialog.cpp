@@ -148,6 +148,7 @@ void UpdateDialog::onDownloadFinished() {
             file_.close();
             QDesktopServices::openUrl(QUrl::fromLocalFile(installerPath_));
             PreferencesManager::instance().setFileMarkedForDeletionOnStartup(installerPath_);
+            globals::debugLog().addInfo("Shutting down to install an update.");
             QCoreApplication::exit(0);
         }
     } else // an error or cancellation occurred, we clean up

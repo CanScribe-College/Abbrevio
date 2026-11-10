@@ -112,7 +112,38 @@ void MainWindow::closeEvent(QCloseEvent *) {
 
 
 //****************************************************************************************************************************************************
-// 
+/// We log session end requests so that it is possible to tell from the log file why the application was closed, for
+/// instance when an installer uses the Restart Manager to shut it down.
+///
+/// \param[in] eventType The event type.
+/// \param[in] message The native message.
+/// \param[out] result The result of the message processing.
+/// \return true if and only if the event should be stopped from being handled by Qt.
+//****************************************************************************************************************************************************
+bool MainWindow::nativeEvent(QByteArray const &eventType, void *message, qintptr *result) {
+    MSG const *msg = static_cast<MSG const *>(message);
+    if (msg && ((WM_QUERYENDSESSION == msg->message) || (WM_ENDSESSION == msg->message))) {
+        QString reason;
+        if (msg->lParam & ENDSESSION_CLOSEAPP)
+            reason = "an application or installer is using the Windows Restart Manager to close Abbrevio";
+        else if (msg->lParam & ENDSESSION_LOGOFF)
+            reason = "the user is logging off";
+        else
+            reason = "Windows is shutting down or restarting";
+        if (msg->lParam & ENDSESSION_CRITICAL)
+            reason += " (forced)";
+        if (WM_QUERYENDSESSION == msg->message)
+            globals::debugLog().addInfo(QString("Windows asked if the session can end: %1.").arg(reason));
+        else
+            globals::debugLog().addInfo(msg->wParam ? QString("Shutdown requested by Windows: %1.").arg(reason)
+                                                    : QString("Windows cancelled the session end request."));
+    }
+    return QMainWindow::nativeEvent(eventType, message, result);
+}
+
+
+//****************************************************************************************************************************************************
+//
 //****************************************************************************************************************************************************
 void MainWindow::setupSystemTrayIcon() {
     disconnect(&systemTrayIcon_, &QSystemTrayIcon::activated, this, &MainWindow::onSystemTrayIconActivated);
@@ -250,6 +281,7 @@ void MainWindow::onSystemTrayIconActivated(QSystemTrayIcon::ActivationReason rea
 // 
 //****************************************************************************************************************************************************
 void MainWindow::onActionExit() {
+    globals::debugLog().addInfo("Shutdown requested by the user (Exit action).");
     this->close(); // ensure the close event handler is called
     QCoreApplication::quit();
 }
