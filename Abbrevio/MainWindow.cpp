@@ -89,7 +89,9 @@ void MainWindow::dropEvent(QDropEvent *event) {
         QString const path = urls[0].toLocalFile();
         // note we need to postpone the launch of the dialogs to end the event handler ASAP, otherwise the application
         // that the file was dropped from will like be frozen until we complete the import dialog
-        if (QFileInfo(path).suffix() == constants::backupFileExtension)
+        QString const suffix = QFileInfo(path).suffix();
+        if ((0 == suffix.compare(constants::backupFileExtension, Qt::CaseInsensitive)) ||
+            (0 == suffix.compare(constants::legacyBackupFileExtension, Qt::CaseInsensitive)))
             QTimer::singleShot(0, [path, this]() { this->restoreBackup(path); });
         else
             QTimer::singleShot(0, [path, this]() { ui_.frameCombos->comboTableWidget()->runComboImportDialog(path); });

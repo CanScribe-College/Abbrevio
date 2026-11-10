@@ -327,7 +327,8 @@ QColor disabledTextColorInTablesAndLists() {
 /// \return The filter for the backup files dialog.
 //****************************************************************************************************************************************************
 QString backupFileDialogFilter() {
-    return QObject::tr("Abbrevio backup files (*.%1);;All files (*.*)").arg(constants::backupFileExtension);
+    return QObject::tr("Abbrevio backup files (*.%1);;All files (*.*)").arg(QString("%1 *.%2").arg(constants::backupFileExtension) // "*.abrbackup *.btbackup"
+        .arg(constants::legacyBackupFileExtension));
 }
 
 

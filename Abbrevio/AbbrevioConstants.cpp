@@ -22,7 +22,8 @@ QString const kGettingStartedUrl = "https://github.com/CanScribe-College/Abbrevi
 QString const kAbbrevioWikiVariablesUrl = "https://github.com/CanScribe-College/Abbrevio/wiki/Variables";
 QString const kAbbrevioReleasesPagesUrl = "https://github.com/CanScribe-College/Abbrevio/releases";
 QString const kAbbrevioIssueTrackerUrl = "https://github.com/CanScribe-College/Abbrevio/issues";
-QString const backupFileExtension = "btbackup";
+QString const backupFileExtension = "abrbackup";
+QString const legacyBackupFileExtension = "btbackup";
 QString const kKeyVariableRegExpStr(R"(#{key:(\w+)(?>:(\d+))?})");
 QString const kShortcutVariableRegExpStr(R"(#{shortcut:(.+)})");
 QString const kDelayVariableRegExpStr(R"(#{delay:(\d+)})");

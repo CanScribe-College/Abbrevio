@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "BackupManager.h"
 #include "AbbrevioGlobals.h"
+#include "AbbrevioConstants.h"
 #include <XMiLib/Exception.h>
 
 
@@ -14,7 +15,7 @@ using namespace xmilib;
 
 
 namespace {
-QRegularExpression const kBackupFileRegExp(R"(^\d{8}_\d{9}_backup\.json$)");
+QRegularExpression const kBackupFileRegExp(R"(^\d{8}_\d{9}(?:\.abrbackup|_backup\.json)$)"); ///< Also matches the legacy '_backup.json' naming
 qint32 constexpr kMaxBackupFileCount = 50;
 }
 
@@ -141,7 +142,8 @@ void BackupManager::archive(QString const &filePath) const {
     QString const backupFolderPath = globals::backupFolderPath();
     QFileInfo const fileInfo(filePath);
     QString const dstPath = QDir(backupFolderPath)
-        .absoluteFilePath(QString("%1_backup.json").arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmsszzz")));
+        .absoluteFilePath(QString("%1.%2").arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmsszzz"))
+            .arg(constants::backupFileExtension));
     if ((!fileInfo.exists()) || (!QFile(filePath).rename(dstPath)))
         log.addWarning(QString("Could not archive file %1").arg(QDir::toNativeSeparators(dstPath)));
     else

@@ -35,6 +35,7 @@ extern QString const kAbbrevioWikiVariablesUrl; ///< The URL of the page about v
 extern QString const kAbbrevioReleasesPagesUrl; ///< The URL of the page for the project releases on GitHub
 extern QString const kAbbrevioIssueTrackerUrl; ///< The URL of the page for the issue tracker on GitHub.
 extern QString const backupFileExtension; ///< The extension for backup files.
+extern QString const legacyBackupFileExtension; ///< The extension for backup files created by older versions, still accepted for restore.
 extern QString const kKeyVariableRegExpStr; ///< A regular expression matching the #{key:} variable.
 extern QString const kShortcutVariableRegExpStr; ///< A regular expression matching the #{shortcut:} variable.
 extern QString const kDelayVariableRegExpStr; ///< A regular expression matching the #{delay:} variable.

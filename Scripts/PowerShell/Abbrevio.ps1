@@ -39,7 +39,7 @@ function copyVcppDlls([String]$dstPath)
 
 
 #***********************************************************************************************************************
-# Retrieve the major, minor and patch version number of Abbrevio from its source socde. Patch defaults to 0
+# Retrieve the major, minor and patch version number of Abbrevio from its source code. Patch defaults to 0
 #***********************************************************************************************************************
 function getAbbrevioVersion
 {
