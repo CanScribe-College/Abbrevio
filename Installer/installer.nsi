@@ -32,9 +32,9 @@
 !define WEBSITE "https://abbrevio.org"
 !define AUTHOR "Xavier Michelon"
 !define COMPANY "abbrevio.org"
-!define VERSION_MAJOR 0
-!define VERSION_MINOR 9
-!define VERSION_PATCH 1
+!define VERSION_MAJOR 1
+!define VERSION_MINOR 0
+!define VERSION_PATCH 0
 !define APP_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 !define LEFT_IMAGE_PATH "${RESOURCES_DIR}\installerLeftImage.bmp"
 !define TOP_IMAGE_PATH "${RESOURCES_DIR}\installerTopImage.bmp"

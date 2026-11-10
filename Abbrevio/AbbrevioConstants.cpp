@@ -14,7 +14,7 @@
 namespace constants {
 
 
-AppVersion const kVersionNumber(0, 9, 1);
+AppVersion const kVersionNumber(1, 0, 0);
 QString const kApplicationName = "Abbrevio";
 QString const kOrganizationName = "abbrevio.org";
 QString const kAbbrevioWikiHomeUrl = "https://github.com/CanScribe-College/Abbrevio/wiki";
