@@ -12,11 +12,11 @@ $ErrorActionPreference = "Stop"
 #***********************************************************************************************************************
 # Variable definitions
 #***********************************************************************************************************************
-$major, $minor = getAbbrevioVersion
-$msixVersion = "$major.$minor.0.0" # MSIX package versions must have exactly 4 numeric parts
+$major, $minor, $patch = getAbbrevioVersion
+$msixVersion = "$major.$minor.$patch.0" # MSIX package versions must have exactly 4 numeric parts
 $buildFolder = absolutePath $solutionDir "Installer\_build"
 $layoutDir = absolutePath $buildFolder "AbbrevioMsixLayout"
-$msixPath = absolutePath $buildFolder "Abbrevio-$major.$minor.msix"
+$msixPath = absolutePath $buildFolder "Abbrevio-$major.$minor.$patch.msix"
 $manifestSrcPath = absolutePath $PSScriptRoot "AppxManifest.xml"
 $assetsSrcDir = absolutePath $PSScriptRoot "Assets"
 $solutionPath = absolutePath $solutionDir "Abbrevio.sln"

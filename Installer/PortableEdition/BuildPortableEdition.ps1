@@ -11,10 +11,10 @@ $ErrorActionPreference = "Stop"
 #***********************************************************************************************************************
 # Variable definitions
 #***********************************************************************************************************************
-$major, $minor = getAbbrevioVersion
+$major, $minor, $patch = getAbbrevioVersion
 $buildFolder = absolutePath $solutionDir "Installer\_build"
 $dstDir = absolutePath $buildFolder "AbbrevioPortableEdition"
-$dstZipFilePath = (absolutePath $buildFolder "Abbrevio-$major.$minor-PortableEdition.zip")
+$dstZipFilePath = (absolutePath $buildFolder "Abbrevio-$major.$minor.$patch-PortableEdition.zip")
 $solutionPath = absolutePath $solutionDir "Abbrevio.sln"
 $exeDir = absolutePath $solutionDir "_build\x64\Release"
 $exePath = absolutePath $exeDir "Abbrevio.exe"
